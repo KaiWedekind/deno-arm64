@@ -1,6 +1,6 @@
 # Deno for ARM64
 
-[![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/KaiWedekind/deno/latest?label=Docker%20Image)](https://hub.docker.com/repository/docker/KaiWedekind/deno)
+[![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/kaiwedekind/deno/latest?label=Docker%20Image)](https://hub.docker.com/repository/docker/KaiWedekind/deno)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/KaiWedekind/deno-arm64?label=ARM64%20Binary)](https://github.com/KaiWedekind/deno-arm64/releases)
 
 ## What is this
