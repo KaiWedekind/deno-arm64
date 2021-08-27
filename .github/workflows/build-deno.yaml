@@ -13,6 +13,7 @@ jobs:
   release_metadata:
     name: Get Release Upload Metadata
     # runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.get_upload_metadata.outputs.upload_url }}
       prerelease: ${{ steps.get_upload_metadata.outputs.prerelease }}
@@ -29,6 +30,7 @@ jobs:
           echo "::set-output name=prerelease::$(echo $release | jq -r ".prerelease")"
   compile:
     # runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: release_metadata
     name: "Compile"
     steps:
