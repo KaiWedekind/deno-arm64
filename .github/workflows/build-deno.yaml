@@ -43,8 +43,9 @@ jobs:
           echo "Compiling Deno version ${GITHUB_REF#refs/tags/}"
           docker buildx create --use
           docker build -t deno-build --build-arg DENO_VERSION=${GITHUB_REF#refs/tags/} --platform="linux/arm64" --file ./Dockerfile.compile .
-          docker run --rm --platform="linux/arm64" -v $(pwd):/pwd deno-build cp /deno/target/aarch64-unknown-linux-gnu/release/deno /pwd/
-          # docker run --rm --platform="linux/arm64" -v $(pwd):/pwd deno-build cp /deno/target/release/deno /pwd/
+          docker run --rm --platform="linux/arm64" -v $(pwd):/pwd deno-build cp /deno/target/release/deno /pwd/
+          
+          # docker run --rm --platform="linux/arm64" -v $(pwd):/pwd deno-build cp /deno/target/aarch64-unknown-linux-gnu/release/deno /pwd/
 
 
           # docker run --rm --platform="linux/arm64" -v $(pwd):/pwd deno-build cp /deno/target/aarch64-unknown-linux-gnu/release/deno /pwd/
