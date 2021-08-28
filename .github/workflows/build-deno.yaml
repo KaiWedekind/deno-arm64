@@ -54,8 +54,11 @@ jobs:
           echo "Compiling Deno version ${GITHUB_REF#refs/tags/}"
           echo "Building for ${platform}"
           docker build -t deno-build --build-arg DENO_VERSION=${GITHUB_REF#refs/tags/} --platform=${platform} --file ./Dockerfile.compile .
-          docker run --rm --platform=${platform} -v $(pwd):/pwd deno-build cp /deno/target/release/deno /pwd/
-          # docker run --rm --platform=${platform} -v $(pwd):/pwd deno-build cp /deno/target/aarch64-unknown-linux-gnu/release/deno /pwd/
+          # docker run --rm --platform=${platform} -v $(pwd):/pwd deno-build cp /deno/target/release/deno /pwd/
+
+          docker run --rm --platform=${platform} -v $(pwd):/pwd deno-build ls -la /deno
+
+          docker run --rm --platform=${platform} -v $(pwd):/pwd deno-build cp /deno/target/aarch64-unknown-linux-gnu/release/deno /pwd/
           zip deno-linux-arm64.zip ./deno
           # zip deno-${{ matrix.target }}.zip ./deno
       - name: Upload Release Asset
