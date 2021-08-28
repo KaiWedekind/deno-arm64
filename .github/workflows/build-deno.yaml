@@ -31,7 +31,7 @@ jobs:
     # runs-on: self-hosted
     runs-on: ubuntu-latest
     needs: release_metadata
-        name: "Compile ${{ matrix.target }}"
+        name: "Compile"
     strategy:
       matrix:
         target:
