@@ -28,9 +28,10 @@ jobs:
           echo "::set-output name=upload_url::$(echo $release | jq -r ".upload_url")"
           echo "::set-output name=prerelease::$(echo $release | jq -r ".prerelease")"
   compile:
+    # runs-on: self-hosted
     runs-on: ubuntu-latest
     needs: release_metadata
-    name: "Compile ${{ matrix.target }}"
+        name: "Compile ${{ matrix.target }}"
     strategy:
       matrix:
         target:
@@ -49,20 +50,26 @@ jobs:
         uses: docker/setup-qemu-action@v1
       - name: Compile Deno
         run: |
+          apt-get update -y && apt-get install -y zip unzip
           platform=$(node -p "'${{ matrix.target }}'.replace(/-/g, '/')")
+          echo "Compiling Deno version ${GITHUB_REF#refs/tags/}"
           echo "Building for ${platform}"
           docker build -t deno-build --build-arg DENO_VERSION=${GITHUB_REF#refs/tags/} --platform=${platform} --file ./Dockerfile.compile .
-          docker run --rm --platform=${platform} -v $(pwd):/pwd deno-build cp /deno/target/aarch64-unknown-linux-gnu/release/deno /pwd/
-          zip deno-${{ matrix.target }}.zip ./deno
+          docker run --rm --platform=${platform} -v $(pwd):/pwd deno-build cp /deno/target/release/deno /pwd/
+          # docker run --rm --platform=${platform} -v $(pwd):/pwd deno-build cp /deno/target/aarch64-unknown-linux-gnu/release/deno /pwd/
+          zip deno-linux-arm64.zip ./deno
+          # zip deno-${{ matrix.target }}.zip ./deno
       - name: Upload Release Asset
-        id: upload-release-asset 
+        id: upload-release-asset-deno
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release_metadata.outputs.upload_url }}
-          asset_path: ./deno-${{ matrix.target }}.zip
-          asset_name: deno-${{ matrix.target }}.zip
+          asset_path: ./deno-linux-arm64.zip
+          asset_name: deno-linux-arm64.zip
+          #asset_path: ./deno-${{ matrix.target }}.zip
+          # asset_name: deno-${{ matrix.target }}.zip
           asset_content_type: application/zip
   build-docker:
     name: Build Docker images
