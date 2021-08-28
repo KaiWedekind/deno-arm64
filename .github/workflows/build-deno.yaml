@@ -41,7 +41,6 @@ jobs:
           # - https://github.com/rust-lang/cargo/issues/7451
           # - https://github.com/rust-lang/cargo/issues/8719
           # I've disabled it for the time being.
-
           # - linux-arm
     steps:
       - name: Checkout
